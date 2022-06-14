@@ -1,28 +1,3 @@
-//function isPrime(i, primes) {
-//    for (let prime in primes) {
-//        if (!(i === prime || i % prime)) {
-//            return false;
-//        }
-//    }
-//    primes.push(i);
-//    return i
-//}
-//
-//function getNprimes(n) {
-//    const primes = [2,];
-//    let i = 2;
-//    let p = 0;
-//    while (true) {
-//        if (isPrime(i, primes)) {
-//            p++
-//            if (p === n) {
-//                return primes
-//            }
-//        }
-//        i++;
-//    }
-//}
-//
 function getNprimes(n){
   const arr = [];
   let i = 2
