@@ -94,3 +94,4 @@ addToBasket(catalog[0].id, 2);
 addToBasket(catalog[3].id, 1);
 console.log(basket);
 console.log(totalInBasket());
+
