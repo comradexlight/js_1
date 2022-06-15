@@ -25,5 +25,5 @@ def get_n_primes(number: int) -> list:
 
 if __name__ == "__main__":
     start_time = datetime.now()
-    print(get_n_primes(100))
+    print(get_n_primes(10000))
     print(f'Время выполнения {datetime.now() - start_time}')
