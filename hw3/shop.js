@@ -69,19 +69,20 @@ class Basket {
 	}; 
 	
 	get totalSum() {
-		let sum = 0;
-		this.goods.forEach((good) => sum += (good.amount * good.price));
-		return sum;
+		return this.goods.reduce(function(accumulator, good){return accumulator += good.amount * good.price;}, 0);
 	};
 	
 	add(good, amount) {
-		if (!this.goods.includes(good)) {
+        if (this.goods.find(oldGood => oldGood.id == good.id)) {
+            console.log("here!");
+        };
+/*		if (!this.goods.includes(good)) {
 			let newGood = new BasketGood(good, amount);
 			this.goods.push(newGood);
 		}
-		else {
-			this.goods.filter(goodOld => goodOld.id === good.id)
-		}
+		else if (this.goods.includes(good)) {
+			this.goods.forEach((goodOld) => goodOld.id == good.id ? goodOld.amount += good.amount : goodOld.amount = goodOld.amount)
+		};*/
 	}; 
 };
 
@@ -121,3 +122,8 @@ basket.add(gloves, 1);
 console.log(basket);
 console.log(basket.totalAmount);
 console.log(basket.totalSum);
+basket.add(gloves, 2);
+console.log(basket);
+console.log(basket.totalAmount);
+console.log(basket.totalSum);
+basket.add(gloves, 3);
