@@ -24,7 +24,7 @@ class GoodsList{
     #goods;
 	constructor (goods, sortPrice, sortDir) {
 		this.#goods = goods;
-        this.filter =  /name: '{good.name`}'?/gmi;
+        //this.filter =  
 		this.sortPrice = sortPrice;
 		this.sortDir = sortDir;
 
@@ -58,16 +58,34 @@ class BasketGood extends Good {
         this.amount = amount;
 	};
 };
-/*
+
 class Basket {
 	constructor(goods) {
 		this.goods = goods;
 	};
 	
+	get totalAmount() {
+		return this.goods.reduce(function(accumulator, good){return accumulator += good.amount;}, 0);
+	}; 
 	
+	get totalSum() {
+		let sum = 0;
+		this.goods.forEach((good) => sum += (good.amount * good.price));
+		return sum;
+	};
+	
+	add(good, amount) {
+		if (!this.goods.includes(good)) {
+			let newGood = new BasketGood(good, amount);
+			this.goods.push(newGood);
+		}
+		else {
+			this.goods.filter(goodOld => goodOld.id === good.id)
+		}
+	}; 
 };
 
-*/
+
 
 let jersey = new Good(0, "jersey", "our new jersey model", "m", 100, true);
 let cap = new Good(1, "cap", "our new cap model", "m", 40, true);
@@ -92,4 +110,14 @@ let catalog = new GoodsList(goodsList, true, false);
 //catalog.add(cap);
 //console.log(catalog.list);
 let jerseyInBasket = new BasketGood(jersey, 2);
-console.log(jerseyInBasket);
+let capInBasket = new BasketGood(cap, 3);
+//let glovesInBasket = new BasketGood(gloves, 1);
+//console.log(jerseyInBasket);
+let basket = new Basket([jerseyInBasket, capInBasket]);
+console.log(basket);
+console.log(basket.totalAmount);
+console.log(basket.totalSum);
+basket.add(gloves, 1);
+console.log(basket);
+console.log(basket.totalAmount);
+console.log(basket.totalSum);
