@@ -74,16 +74,23 @@ class Basket {
 	
 	add(good, amount) {
         if (this.goods.find(oldGood => oldGood.id == good.id)) {
-            console.log("here!");
-        };
-/*		if (!this.goods.includes(good)) {
+			this.goods.forEach((oldGood) => oldGood.id === good.id ? oldGood.amount += amount : oldGood.amount = oldGood.amount);
+        }
+		else {
 			let newGood = new BasketGood(good, amount);
 			this.goods.push(newGood);
+		};
+	};
+
+	remove(good, amount) {
+		if (this.goods.find(oldGood => oldGood.id == good.id)) {
+			this.goods.forEach((oldGood) => oldGood.id === good.id ? oldGood.amount -= amount : oldGood.amount = oldGood.amount);
+			this.goods.forEach((good) => good.amount === 0 ? this.goods.slice(good, 1) : this.goods = this.goods);
 		}
-		else if (this.goods.includes(good)) {
-			this.goods.forEach((goodOld) => goodOld.id == good.id ? goodOld.amount += good.amount : goodOld.amount = goodOld.amount)
-		};*/
-	}; 
+		else {
+			console.log("Данного товара нет в корзине");
+		};
+	};	
 };
 
 
@@ -120,10 +127,16 @@ console.log(basket.totalAmount);
 console.log(basket.totalSum);
 basket.add(gloves, 1);
 console.log(basket);
-console.log(basket.totalAmount);
+basket.add(cap, 2);
+console.log(basket);
+basket.remove(pantsWithStraps, 5);
+console.log(basket);
+basket.remove(cap, 5);
+console.log(basket);
+/*console.log(basket.totalAmount);
 console.log(basket.totalSum);
 basket.add(gloves, 2);
 console.log(basket);
 console.log(basket.totalAmount);
 console.log(basket.totalSum);
-basket.add(gloves, 3);
+basket.add(gloves, 3);*/
