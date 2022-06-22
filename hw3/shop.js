@@ -31,15 +31,19 @@ class GoodsList{
 	};
 
 	get list() {
-        if (this.sortPrice === true) {
-            if (this.sortDir === true) {
-                return this.#goods.sort((good1, good2) => good1.price>good2.price ? 1: -1).filter((good) => good.available === true);
+        if (this.sortPrice) {
+            if (this.sortDir) {
+                return this.#goods.sort((good1, good2) => good1.price > good2.price ? 1: -1).filter((good) => good.available);
             }
-            else if (this.sortDir === false) {
-                return this.#goods.sort((good1, good2) => good1.price>good2.price ? -1: 1).filter((good) => good.available === true);
-            };
+            else if (!this.sortDir) {
+                return this.#goods.sort((good1, good2) => good1.price > good2.price ? -1: 1).filter((good) => good.available);
+            }
+        }
+        else if (!this.sortPrice) {
+            return this.#goods.sort((good1, good2) => good1.id > good2.id ? 1: -1).filter((good) => good.available);
         };
-	};
+    };
+
 	
 	add(good) {
 		this.#goods.push(good);
@@ -65,12 +69,13 @@ class Basket {
 	};
 	
 	get totalAmount() {
-		return this.goods.reduce(function(accumulator, good){return accumulator += good.amount;}, 0);
-	}; 
-	
-	get totalSum() {
 		return this.goods.reduce(function(accumulator, good){return accumulator += good.amount * good.price;}, 0);
 	};
+	
+	
+	get totalSum() {
+        return this.goods.reduce(function(accumulator, good){return accumulator += good.amount;}, 0);	
+    };
 	
 	add(good, amount) {
         if (this.goods.find(oldGood => oldGood.id == good.id)) {
@@ -85,12 +90,20 @@ class Basket {
 	remove(good, amount) {
 		if (this.goods.find(oldGood => oldGood.id == good.id)) {
 			this.goods.forEach((oldGood) => oldGood.id === good.id ? oldGood.amount -= amount : oldGood.amount = oldGood.amount);
-			this.goods.forEach((good) => good.amount === 0 ? this.goods.slice(good, 1) : this.goods = this.goods);
+			this.goods = this.goods.filter(function(oldGood) {return oldGood.amount > 0});
 		}
 		else {
 			console.log("Данного товара нет в корзине");
 		};
-	};	
+	};
+
+    clear() {
+        this.goods.splice(0, this.goods.length);
+    };
+
+    removeUnavailable() {
+        this.goods = this.goods.filter(function(good) {return good.available});
+    };
 };
 
 
@@ -100,43 +113,40 @@ let cap = new Good(1, "cap", "our new cap model", "m", 40, true);
 let gloves = new Good(2, "gloves", "our standart gloves model", "s", 70, true);
 let pantsWithStraps = new Good(3, "pants with straps", "our standart pants with straps model", "m", 115, true);
 let glasses = new Good(4, "glasses", "a new model of glasses, still in development", "m", 100, false);
+
 let goodsList = [jersey, cap, gloves, pantsWithStraps, glasses, ];
-//console.log(jersey);
-//jersey.setAvailable(false);
-//console.log(jersey);
-//jersey.setAvailable(123);
-//console.log(jersey);
-//console.log(cap);
+
 let catalog = new GoodsList(goodsList, true, false);
-//console.log(catalog);
-//console.log(catalog);
-//console.log(catalog.list);
-//catalog.remove(jersey.id);
-//catalog.remove(cap.id);
-//console.log(catalog.list);
-//catalog.add(jersey);
-//catalog.add(cap);
-//console.log(catalog.list);
-let jerseyInBasket = new BasketGood(jersey, 2);
-let capInBasket = new BasketGood(cap, 3);
-//let glovesInBasket = new BasketGood(gloves, 1);
-//console.log(jerseyInBasket);
-let basket = new Basket([jerseyInBasket, capInBasket]);
-console.log(basket);
-console.log(basket.totalAmount);
-console.log(basket.totalSum);
-basket.add(gloves, 1);
-console.log(basket);
+let basket = new Basket([]);
+
+basket.add(jersey, 1);
 basket.add(cap, 2);
-console.log(basket);
-basket.remove(pantsWithStraps, 5);
-console.log(basket);
-basket.remove(cap, 5);
-console.log(basket);
-/*console.log(basket.totalAmount);
-console.log(basket.totalSum);
-basket.add(gloves, 2);
+basket.add(gloves, 1);
+basket.add(glasses, 3);
+console.log(catalog.list);
+catalog.sortDir = true;
+console.log(catalog.list);
+catalog.sortPrice = false;
+console.log(catalog.list);
+catalog.sortPrice = true;
+console.log(catalog.list);
+catalog.remove(0);
+console.log(catalog.list);
+
 console.log(basket);
 console.log(basket.totalAmount);
 console.log(basket.totalSum);
-basket.add(gloves, 3);*/
+
+basket.remove(jersey, 1);
+console.log(basket);
+console.log(basket.totalAmount);
+console.log(basket.totalSum);
+
+basket.removeUnavailable();
+console.log(basket);
+console.log(basket.totalAmount);
+console.log(basket.totalSum);
+
+basket.clear();
+console.log(basket);
+
