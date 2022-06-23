@@ -24,7 +24,7 @@ class GoodsList{
     #goods;
 	constructor (goods, sortPrice, sortDir) {
 		this.#goods = goods;
-        //this.filter =  
+        this.filter = /[a-zа-я_0-9]+(\s[a-zа-я_0-9]+)*/gi;
 		this.sortPrice = sortPrice;
 		this.sortDir = sortDir;
 
@@ -33,14 +33,14 @@ class GoodsList{
 	get list() {
         if (this.sortPrice) {
             if (this.sortDir) {
-                return this.#goods.sort((good1, good2) => good1.price > good2.price ? 1: -1).filter((good) => good.available);
+                return this.#goods.sort((good1, good2) => good1.price > good2.price ? 1: -1).filter((good) => good.available).filter((good) => this.filter.test(good.name));
             }
             else if (!this.sortDir) {
-                return this.#goods.sort((good1, good2) => good1.price > good2.price ? -1: 1).filter((good) => good.available);
+                return this.#goods.sort((good1, good2) => good1.price > good2.price ? -1: 1).filter((good) => good.available).filter((good) => this.filter.test(good.name));
             }
         }
         else if (!this.sortPrice) {
-            return this.#goods.sort((good1, good2) => good1.id > good2.id ? 1: -1).filter((good) => good.available);
+            return this.#goods.sort((good1, good2) => good1.id > good2.id ? 1: -1).filter((good) => good.available).filter((good) => this.filter.test(good.name));
         };
     };
 
@@ -150,3 +150,11 @@ console.log(basket.totalSum);
 basket.clear();
 console.log(basket);
 
+console.log(catalog.filter.test(jersey.name));
+console.log(catalog.filter.test(cap.name));
+console.log(catalog.filter.test(gloves.name));
+console.log(catalog.filter.test(pantsWithStraps.name));
+console.log(catalog.filter.test(glasses.name));
+console.log(catalog.filter.test("!"));
+
+console.log(catalog.list);
