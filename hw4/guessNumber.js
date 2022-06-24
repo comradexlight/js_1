@@ -11,22 +11,24 @@ function question() {
 			console.log("Бинго! Это верный ответ.\nКоличество попыток", counter);
             logShema.push(cmd);
 			rl.close();
+			console.log(logShema);
 			return
 		}
-		else if (cmd > trueNumber) {
+		else if (cmd > trueNumber && 0 < cmd && cmd < 100) {
 			console.log("Твоё число", cmd, "Это больше загаданного.\nЭто попытка номер", counter);
             logShema.push(cmd);
             counter++
 		}
-		else if (cmd < trueNumber) {
+		else if (cmd < trueNumber && 0 < cmd && cmd < 100) {
 			console.log("Твоё число", cmd, "Это меньше загаданного.\nЭто попытка номер", counter);
             logShema.push(cmd);
 			counter++
 		}
-		else if (typeof(cmd) !== Number) {
+		else if (cmd > 100 || cmd < 0 || typeof(cmd) != Number) {
 			console.log("Вы ввели неверное значение. Введите число от 0 до 100");
             logShema.push(cmd);        
-		};
+		};		
+		
 		question();
 	});
 };
