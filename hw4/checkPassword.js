@@ -1,3 +1,5 @@
+'use strict';
+
 function getPasswordChecker(password) {
 	const truePassword = "truePassword";
 	return function() {
