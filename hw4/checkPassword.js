@@ -2,7 +2,7 @@
 
 function getPasswordChecker(password) {
 	const truePassword = "truePassword";
-	return function() {
+	return function checkPassword() {
 		if (password === truePassword) {
 			return true;
 		}
