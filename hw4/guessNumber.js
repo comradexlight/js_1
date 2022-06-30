@@ -1,6 +1,6 @@
 'use strict';
 
-const rl = require("readline").Interface(process.stdin, process.stdout);
+const rl = require("node:readline").createInterface(process.stdin, process.stdout);
 const fs = require("fs");
 
 
