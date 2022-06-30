@@ -1,22 +1,21 @@
 'use strict';
 
 function getPasswordChecker(password) {
-	const truePassword = "truePassword";
-	return function checkPassword() {
-		if (password === truePassword) {
+	return function checkPassword(anotherPassword) {
+		if (anotherPassword === password) {
 			return true;
 		}
-		else if (password !== truePassword) {
+		else if (anotherPassword !== password) {
 			return false;
 		};
 	};
 };
 
+const pass1 = getPasswordChecker("somePassword")("wrongPassword");
+const pass2 = getPasswordChecker("somePassword")("Password")
+const pass3 = getPasswordChecker("somePassword")("somePassword")
 
-let check1 = getPasswordChecker("wrongPassword");
-let check2 = getPasswordChecker("truePassword");
-let check3 = getPasswordChecker("somePassword");
+console.log(pass1);
+console.log(pass2);
+console.log(pass3);
 
-console.log(check1());
-console.log(check2());
-console.log(check3());
