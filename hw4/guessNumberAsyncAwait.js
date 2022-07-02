@@ -8,7 +8,7 @@ const trueNumber = Number(Math.floor(Math.random() * 100));
 let counter = 1;
 let logShema = "";
 let answer = "";
-
+let isPlaying = true;
 console.log("Я загадал число от 0 до 100. Угадаешь?");
 
 function checkAccess(path) {
@@ -17,48 +17,47 @@ function checkAccess(path) {
            .catch(() => false)
 }
 
-
 async function question() {
-    const cmd = await rl.question("Введи своё число ");
+    while (isPlaying){
+        const cmd = await rl.question("Введи своё число ");
 	
-		if (cmd == trueNumber) {
-			answer = "Бинго! Это верный ответ. Количество попыток " + counter;
-			console.log(answer);
-			logShema += Date() + ", " + cmd + ", " + answer + "," + "\n";
-			isPlay = false;
-			rl.close();
-			if (checkAccess("logAA.txt")) {
-				fs.appendFile("logAA.txt", logShema);
-				console.log('Лог файл был обновлён');
-			}
-			else if (!checkAccess("logAA.txt")) {
-				fs.writeFile("logAA.txt", logShema);
-				console.log("Лог файл был создан");
-			};
-			return
-		}
+		    if (cmd == trueNumber) {
+			    answer = "Бинго! Это верный ответ. Количество попыток " + counter;
+			    console.log(answer);
+			    logShema += Date() + ", " + cmd + ", " + answer + "," + "\n";
+			    isPlaying = false;
+			    rl.close();
+			    if (checkAccess("logAA.txt")) {
+				    fs.appendFile("logAA.txt", logShema);
+				    console.log('Лог файл был обновлён');
+			    }
+			    else if (!checkAccess("logAA.txt")) {
+				    fs.writeFile("logAA.txt", logShema);
+				    console.log("Лог файл был создан");
+			    };
+			    return
+		    }   
 		
-		else if (cmd > trueNumber && 0 < cmd && cmd < 100) {  
+		    else if (cmd > trueNumber && 0 < cmd && cmd < 100) {  
 				answer = "Твоё число " + cmd + ". Это больше загаданного. Это попытка номер " + counter;
-		  console.log(answer);
-		  logShema += Date() + ", " + cmd + ", " + answer + ", " + "\n";
+		        console.log(answer);
+		        logShema += Date() + ", " + cmd + ", " + answer + ", " + "\n";
 				counter++
-		}
+		    }
 		
-		else if (cmd < trueNumber && 0 < cmd && cmd < 100) {
+		    else if (cmd < trueNumber && 0 < cmd && cmd < 100) {
 				answer = "Твоё число " + cmd + ". Это меньше загаданного. Это попытка номер " + counter;
-		  console.log(answer);
-		  logShema += Date() + ", " + cmd + ", " + answer + "," + "\n";
-		  counter++
-		}
+		        console.log(answer);
+		        logShema += Date() + ", " + cmd + ", " + answer + "," + "\n";
+		        counter++
+		    }
 		
-		else if (cmd > 100 || cmd < 0 || typeof(cmd) != Number) {
+		    else if (cmd > 100 || cmd < 0 || typeof(cmd) != Number) {
 				answer = "Вы ввели неверное значение. Введите число от 0 до 100"
-		  console.log(answer);
-		  logShema += Date() + ", " + cmd + ", " + answer + "," + "\n";
-		};
-		
-	question();	
+		        console.log(answer);
+		        logShema += Date() + ", " + cmd + ", " + answer + "," + "\n";
+	        };
+    }            
 };
 
 question();
